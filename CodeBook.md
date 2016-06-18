@@ -1,22 +1,39 @@
-This is a code book written in fulfilment of the Getting and Cleaning Data Course Project. The link to the data was provided at the following website, https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip; 
-and a description of how the data was collected came from the web site http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones.  One can also found it in the various files that came in the zipped data set.
+
+
+This is a code book written in fulfilment of the Getting and Cleaning Data Course Project. The link to the data was provided at the
+following website, https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip; 
+and a description of how the data was collected came from the web site
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones.  
+
+One can also found it in the various files that came in the zipped data set.
+
 In summary, the project requires one to:
-1. Merges the training and the test sets to create one data set.
-2. Extracts only the measurements on the mean and standard deviation for each measurement.
-3. Uses descriptive activity names to name the activities in the data set
-4. Appropriately labels the data set with descriptive variable names.
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
+  1. Merges the training and the test sets to create one data set.
+  2. Extracts only the measurements on the mean and standard deviation for each measurement.
+  3. Uses descriptive activity names to name the activities in the data set
+  4. Appropriately labels the data set with descriptive variable names.
+  5. From the data set in step 4, creates a second, independent tidy data set
+  with the average of each variable for each activity and each subject.
 
 Here is how it was accomplished, descriptions can also be found in the code run_analysis.R.
 1.  Merging the training and test data sets:
-		The experiments were carried out with a group of 30 volunteers: subjects, each subject performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. The files downloaded includes the following:  'README.txt', 'features_info.txt': Shows information about the variables used on the feature vector; 'features.txt': List of all features; 'activity_labels.txt': Links the class labels with their activity name; 'train/X_train.txt': Training set; 'train/y_train.txt': Training labels; 'test/X_test.txt': Test set; 'test/y_test.txt': Test labels.
+	The experiments were carried out with a group of 30 volunteers: subjects, each subject performed six activities (WALKING,
+        WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. The
+        files downloaded includes the following:  'README.txt', 'features_info.txt': Shows information about the variables used on the
+        feature vector; 'features.txt': List of all features; 'activity_labels.txt': Links the class labels with their activity name;
+        'train/X_train.txt': Training set; 'train/y_train.txt': Training labels; 'test/X_test.txt': Test set; 'test/y_test.txt': Test
+         labels.
 
-		Data sets were merged sequentially using rbind for each test and training set, followed by cbind for the activity, subject and features data.  Column names were also added accordingly:
-			a. ActivityTestData from file test/Y_test.txt, combined with ActivityTrainData from file train/Y_train.txt	to make ActivityData.
-			b. SubjectTrainData from file train/subject_train.txt combined with SubjectTestData from file test/subject_test.txt to make SubjectData; 
-			c. FeaturesTestData from file test"/X_test.txt combined with FeaturesTrainData from file train/X_train.txt to make FeaturesData.  Column names for the Features data were obtained from the file features.txt.
-			d. cbind ActivityData with SubjectData to give SubActData
-			e. cbind SubActData with FeaturesData to give the merged data set AllData.
+	Data sets were merged sequentially using rbind for each test and training set, 
+	followed by cbind for the activity, subject and features data.  Column names were also added accordingly:
+	 a. ActivityTestData from file test/Y_test.txt, combined with ActivityTrainData from file train/Y_train.txt
+	 to make ActivityData.
+	 b. SubjectTrainData from file train/subject_train.txt combined with SubjectTestData 
+	 from file test/subject_test.txt to make SubjectData; 
+	 c. FeaturesTestData from file test"/X_test.txt combined with FeaturesTrainData from file train/X_train.txt to make
+	    FeaturesData. Column names for the Features data were obtained from the file features.txt.
+	 d. cbind ActivityData with SubjectData to give SubActData
+	e. cbind SubActData with FeaturesData to give the merged data set AllData.
 2. 	Extracts only the measurements on the mean and standard deviation for each measurement
 		FeaturesWanted:  contains the list for measurements on the mean and standard deviation,
 		subData:  the data for the subset with just the FeaturesWanted
@@ -26,11 +43,18 @@ Here is how it was accomplished, descriptions can also be found in the code run_
 		
 4. Appropriately labels the data set with descriptive variable names.
 	From features_info.txt : 
-		"The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+		"The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ 
+                and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. 
+                Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency 
+               of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration
+               signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz.
 
-		Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+		Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals
+		(tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated 
+		using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
 
-		Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
+		Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ,
+		fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
 
 		These signals were used to estimate variables of the feature vector for each pattern:  
 		'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions."
@@ -125,8 +149,9 @@ Here is how it was accomplished, descriptions can also be found in the code run_
 		[80] "frequencyBodygyroscopeJerkmagnitude-std()"         
 		[81] "frequencyBodygyroscopeJerkmagnitude-meanFreq()"  
 		
-5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
-	newtable : contains the average of each variable for each activity and each subject
-	tidydata.txt: text file written from newtable created.	
+5. From the data set in step 4, creates a second, independent tidy data set 
+     with the average of each variable for each activity and each subject.
+	   newtable : contains the average of each variable for each activity and each subject
+	   tidydata.txt: text file written from newtable created.	
 
 			
